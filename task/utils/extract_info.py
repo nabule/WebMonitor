@@ -10,10 +10,21 @@ logger = logging.getLogger('main')
 
 
 def extract_by_re(conetnt, regular_expression):
+    pattern = re.compile(regular_expression)
+    result = pattern.findall(conetnt)
     m = re.search(regular_expression, conetnt)
 
+    result_str = "监控结果列表：\n"
+    list_num = 1
+
     if m:
-        return m.group(1)
+        logger.info('FindAll')
+        logger.info('\n'.join(result))
+        for i in result:
+            result_str = result_str + "(" + str(list_num) + "). " + i + "\n"
+            list_num = list_num + 1
+        # return m.groups()
+        return result_str
     elif not m:
         return "未检测到相关内容"
     else:
